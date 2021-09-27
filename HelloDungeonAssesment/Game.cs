@@ -38,6 +38,9 @@ namespace HelloDungeonAssesment
         private Item[] _nightWingItems;
         private Item[] _redHoodItems;
 
+        /// <summary>
+        /// Function that starts the main game loop
+        /// </summary>
         public void Run()
         {
             Start();
@@ -50,9 +53,14 @@ namespace HelloDungeonAssesment
             End();
         }
 
+        /// <summary>
+        /// Function used to initialize any starting values by default
+        /// </summary>
         private void Start()
         {
-            
+            _gameOver = false;
+            _currentScene = 0;
+            InitializeItems();
         }
 
         public void End()
@@ -120,6 +128,23 @@ namespace HelloDungeonAssesment
 
         }
 
+        /// <summary>
+        /// Prints a characters stats to the console
+        /// </summary>
+        /// <param name="character">The character that will have its stats shown</param>
+        void DisplayStats(Entity character)
+        {
+
+            Console.WriteLine("Name: " + character.Name);
+            Console.WriteLine("Health: " + character.Health);
+            Console.WriteLine("Attack: " + character.AttackPower);
+            Console.WriteLine("Defense: " + character.DefensePower);
+            Console.WriteLine();
+
+
+
+        }
+
 
         /// <summary>
         /// Gets the players choice of character. Updates player stats based on
@@ -127,7 +152,7 @@ namespace HelloDungeonAssesment
         /// </summary>
         public void CharacterSelection()
         {
-            int choice = GetInput("Welcome to Gotham " + _playerName + ", choose your character", "Batman", "Robin");
+            int choice = GetInput("Welcome to Gotham " + _playerName + ", choose your character", "Batman", "Robin", "NightWing", "RedHood");
 
             if (choice == 0)
             {
@@ -138,6 +163,14 @@ namespace HelloDungeonAssesment
             {
                 _player = new Player(_playerName, 150, 100, 85, _robinItems, "Robin");
                 _currentScene++;
+            }
+            else if (choice == 2)
+            {
+                _player = new Player(_playerName, 1, 1, 1, _nightWingItems, "NightWing");
+            }
+            else if (choice == 3)
+            {
+                _player = new Player(_playerName, 1, 1, 1, _redHoodItems, "Red Hood");
             }
 
 
