@@ -104,6 +104,24 @@ namespace HelloDungeonAssesment
             _redHoodItems = new Item[] { dualPistols, bodyArmor };
         }
 
+        public void InitializeEnemies()
+        {
+            _currentEnemyIndex = 0;
+
+            Entity riddler = new Entity("Riddler", 50, 180, 35);
+
+            Entity mrFreeze = new Entity("Mr.Freeze", 85, 175, 70);
+
+            Entity killerCroc = new Entity("Killer Croc", 20, 20, 20);
+
+            Entity blackMask = new Entity("Black Mask", 20, 20, 20);
+
+            Entity bane = new Entity("Bane", 20, 20, 20);
+
+            Entity deathStroke = new Entity("DeathStroke", 20, 20, 20);
+
+        }
+
 
         /// <summary>
         /// Displays text asking for the players name. Doesn't transition to the next section
