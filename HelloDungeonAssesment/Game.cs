@@ -324,6 +324,40 @@ namespace HelloDungeonAssesment
 
         }
 
+        /// <summary>
+        /// Checks to see if either the player or the enemy has won the current battle.
+        /// Updates the game based on who won the battle..
+        /// </summary>
+        void CheckBattleResults()
+        {
+            if (_player.Health <= 0)
+            {
+                Console.WriteLine("You have failed and now Gotham shall fall!!!");
+                Console.ReadKey(true);
+                Console.Clear();
+                _currentScene = Scene.RESTARTMENU;
+            }
+            else if (_currentEnemy.Health <= 0)
+            {
+                Console.WriteLine("You sent " + _currentEnemy.Name + " back to Arkham");
+                Console.ReadKey();
+                Console.Clear();
+                _currentEnemyIndex++;
+
+                if (_currentEnemyIndex >= _enemies.Length)
+                {
+                    _currentScene = Scene.RESTARTMENU;
+                    Console.WriteLine("You defeated all the escaped villains and sent them back to Arkham");
+                    return;
+                }
+
+                _currentEnemy = _enemies[_currentEnemyIndex];
+            }
+
+
+
+
+        }
 
 
 
