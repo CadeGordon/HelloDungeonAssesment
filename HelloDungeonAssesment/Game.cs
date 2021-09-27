@@ -35,6 +35,8 @@ namespace HelloDungeonAssesment
         private string _playerName;
         private Item[] _batmanItems;
         private Item[] _robinItems;
+        private Item[] _nightWingItems;
+        private Item[] _redHoodItems;
 
         public void Run()
         {
@@ -79,9 +81,19 @@ namespace HelloDungeonAssesment
             Item bowStaff = new Item { Name = "Bow Staff", StatBoost = 10, Type = ItemType.ATTACK };
             Item throwingBird = new Item { Name = "Throwing Bird", StatBoost = 5, Type = ItemType.DEFENSE };
 
+            //Nightwing Gadgets
+            Item escrimaSticks = new Item { Name = "Escrima Sticks", StatBoost = 2, Type = ItemType.ATTACK };
+            Item wingDings = new Item { Name = "Wing Dings", StatBoost = 1, Type = ItemType.DEFENSE };
+
+            //Red Hood Gadgets
+            Item dualPistols = new Item { Name = "Dual Pistols", StatBoost = 2, Type = ItemType.ATTACK };
+            Item bodyArmor = new Item { Name = "Kevlar Vest", StatBoost = 1, Type = ItemType.DEFENSE };
+
             //Initialize arrays
             _batmanItems = new Item[] { grapplingHook, batterRang };
             _robinItems = new Item[] { bowStaff, throwingBird };
+            _nightWingItems = new Item[] { escrimaSticks, wingDings };
+            _redHoodItems = new Item[] { dualPistols, bodyArmor };
         }
 
 
@@ -104,6 +116,29 @@ namespace HelloDungeonAssesment
                 _currentScene++;
             }
 
+
+
+        }
+
+
+        /// <summary>
+        /// Gets the players choice of character. Updates player stats based on
+        /// the character chosen.
+        /// </summary>
+        public void CharacterSelection()
+        {
+            int choice = GetInput("Welcome to Gotham " + _playerName + ", choose your character", "Batman", "Robin");
+
+            if (choice == 0)
+            {
+                _player = new Player(_playerName, 200, 150, 150, _batmanItems, "Batman");
+                _currentScene++;
+            }
+            else if (choice == 1)
+            {
+                _player = new Player(_playerName, 150, 100, 85, _robinItems, "Robin");
+                _currentScene++;
+            }
 
 
         }
