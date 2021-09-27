@@ -7,7 +7,12 @@ namespace HelloDungeonAssesment
 {
     public enum Scene
     {
-        None
+        STARTMENU,
+        NAMECREATION,
+        CHARACTERSELECTION,
+        BATTLE,
+        RESTARTMENU,
+        RIDDLERROOM
     }
 
     public struct Item
@@ -70,12 +75,25 @@ namespace HelloDungeonAssesment
 
         private void Update()
         {
-            
+            DisplayCurrentScene();
+
         }
 
         void DisplayCurrentScene()
         {
-
+            switch (_currentScene)
+            {
+                    case Scene.STARTMENU:
+                DisplayStartMenu();
+                break;
+                    case Scene.NAMECREATION:
+                        GetPlayerName();
+                break;
+                    case Scene.CHARACTERSELECTION:
+                       CharacterSelection();
+                break;
+                    
+            }
         }
 
 
@@ -110,7 +128,7 @@ namespace HelloDungeonAssesment
 
             Entity riddler = new Entity("Riddler", 50, 180, 35);
 
-            Entity mrFreeze = new Entity("Mr.Freeze", 85, 175, 70);
+            Entity mrFreeze = new Entity("Mr. Freeze", 85, 175, 70);
 
             Entity killerCroc = new Entity("Killer Croc", 20, 20, 20);
 
@@ -120,7 +138,31 @@ namespace HelloDungeonAssesment
 
             Entity deathStroke = new Entity("DeathStroke", 20, 20, 20);
 
+            Entity pyg = new Entity("Proffesor Pyg", 20, 20, 20);
+
+            Entity joker = new Entity("Joker", 20, 20, 20);
+
+            _enemies = new Entity[] { riddler, mrFreeze, killerCroc, blackMask, bane, deathStroke, pyg, joker };
+
+            _currentEnemy = _enemies[_currentEnemyIndex];
+
         }
+
+
+        public void DisplayStartMenu()
+        {
+            int choice = GetInput("Welcome to Gotham Defenders ", "Start New Game", "Load Game");
+
+            if (choice == 0)
+            {
+                _currentScene = Scene.NAMECREATION;
+            }
+            else if (choice == 1)
+            {
+
+            }   
+        }
+
 
 
         /// <summary>
@@ -145,6 +187,27 @@ namespace HelloDungeonAssesment
 
 
         }
+
+
+        /// <summary>
+        /// Displays the menu that allows the player to start or quit the game
+        /// </summary>
+        void DisplayRestartMenu()
+        {
+            int choice = GetInput("Would like to go back into Gotham?", "Yes", "No");
+
+            if (choice == 0)
+            {
+                _currentScene = 0;
+                InitializeEnemies();
+            }
+            else if (choice == 1)
+            {
+                _gameOver = true;
+            }
+
+        }
+
 
         /// <summary>
         /// Prints a characters stats to the console
@@ -185,11 +248,78 @@ namespace HelloDungeonAssesment
             else if (choice == 2)
             {
                 _player = new Player(_playerName, 1, 1, 1, _nightWingItems, "NightWing");
+                _currentScene++;
             }
             else if (choice == 3)
             {
                 _player = new Player(_playerName, 1, 1, 1, _redHoodItems, "Red Hood");
+                _currentScene++;
             }
+
+
+        }
+
+        public void DisplayEquipitemMenu()
+        {
+            //Get item index
+            int choice = GetInput("Select and item to equip.", _player.GetItemNames());
+
+            //Equip item at given index
+            if (!_player.TryEquipItem(choice))
+                Console.WriteLine("You couldnt find that item in your utility belt.");
+
+
+            //Print feedback
+            Console.WriteLine("You equipped " + _player.CurrentItem.Name + "!");
+        }
+
+
+        /// <summary>
+        /// Simulates one turn in the current monster fight
+        /// </summary>
+        public void Battle()
+        {
+            float damageDealt = 0;
+
+            DisplayStats(_player);
+            DisplayStats(_currentEnemy);
+
+            int choice = GetInput(_currentEnemy.Name + " stands in front of you! What will you do?", "Attack", "Equip Item", "Remove Current Item", "Save");
+
+            if (choice == 0)
+            {
+                damageDealt = _player.Attack(_currentEnemy);
+                Console.WriteLine("You dealt " + damageDealt + " damage!");
+            }
+            else if (choice == 1)
+            {
+                DisplayEquipitemMenu();
+                Console.ReadKey();
+                Console.Clear();
+                return;
+            }
+            else if (choice == 2)
+            {
+                if (!_player.TryRemoveCurrentItem())
+                    Console.WriteLine("You dont have anything equipped.");
+                else
+                    Console.WriteLine("You place the item in your utility belt");
+
+                Console.ReadKey(true);
+                Console.Clear();
+                return;
+            }
+            
+
+            damageDealt = _currentEnemy.Attack(_player);
+            Console.WriteLine(_currentEnemy.Name + " dealt " + damageDealt + " damage!");
+
+            Console.ReadKey(true);
+            Console.Clear();
+
+
+
+
 
 
         }
