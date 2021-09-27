@@ -72,13 +72,12 @@ namespace HelloDungeonAssesment
 
         public void End()
         {
-           
+            Console.WriteLine("add something cool later");
         }
 
         private void Update()
         {
             DisplayCurrentScene();
-
         }
 
         void DisplayCurrentScene()
@@ -101,14 +100,14 @@ namespace HelloDungeonAssesment
                     Battle();
                     CheckBattleResults();
                     break;
-
-                
-                  
+                case Scene.RESTARTMENU:
+                    DisplayRestartMenu();
+                    break;
                     
             }
         }
 
-
+        
         public void InitializeItems()
         {
             //Batman Gadgets
@@ -160,7 +159,6 @@ namespace HelloDungeonAssesment
 
         }
 
-
         public void DisplayStartMenu()
         {
             int choice = GetInput("Welcome to Gotham Defenders ", "Start New Game", "Load Game");
@@ -174,8 +172,6 @@ namespace HelloDungeonAssesment
 
             }   
         }
-
-
 
         /// <summary>
         /// Displays text asking for the players name. Doesn't transition to the next section
@@ -200,7 +196,6 @@ namespace HelloDungeonAssesment
 
         }
 
-
         /// <summary>
         /// Displays the menu that allows the player to start or quit the game
         /// </summary>
@@ -220,7 +215,6 @@ namespace HelloDungeonAssesment
 
         }
 
-
         /// <summary>
         /// Prints a characters stats to the console
         /// </summary>
@@ -237,7 +231,6 @@ namespace HelloDungeonAssesment
 
 
         }
-
 
         /// <summary>
         /// Gets the players choice of character. Updates player stats based on
@@ -285,7 +278,6 @@ namespace HelloDungeonAssesment
             Console.WriteLine("You equipped " + _player.CurrentItem.Name + "!");
         }
 
-
         /// <summary>
         /// Simulates one turn in the current monster fight
         /// </summary>
@@ -321,7 +313,6 @@ namespace HelloDungeonAssesment
                 Console.Clear();
                 return;
             }
-            
 
             damageDealt = _currentEnemy.Attack(_player);
             Console.WriteLine(_currentEnemy.Name + " dealt " + damageDealt + " damage!");
@@ -331,52 +322,64 @@ namespace HelloDungeonAssesment
 
         }
 
+        //need to fix the loop when player gets answer wrong
         public void RiddlerRiddle()
         {
             int numberOfAttempts = 3;
             string input = "";
 
+            Console.Clear();
+
+            Console.WriteLine("Welcome to Gotham " + _playerName +
+             " In case you havent heard yet, several of Gothams most notoroius villains have ecscaped Arkham Asylum" +
+            " including myself the riddler the most dangoures of all of The Batmans villains.");
+            Console.ReadKey(true);
+            Console.Clear();
+
+            Console.WriteLine("But the only way you will get to them " + _playerName + " is by getting through me first");
+            Console.ReadKey(true);
+            Console.Clear();
+
+            Console.WriteLine("But it wont be that easy you must first solve my riddle to earn the priviliage of fighting me");
+            Console.ReadKey(true);
+            Console.Clear();
+
+            Console.WriteLine("be carful because you only get " + numberOfAttempts + " attempts.");
+            Console.ReadKey(true);
+            Console.Clear();
+
             for (int i = 0; i < numberOfAttempts; i--)
             {
-                Console.Clear();
 
-                Console.WriteLine("Welcome to Gotham " + _playerName + " In case you havent heard yet, several of Gothams most notoroius villains have ecscaped Arkham Asylum including myself the riddler the most dangoures of all of The Batmans villains.");
-                Console.ReadKey(true);
-                Console.Clear();
-
-                Console.WriteLine("But the only way you will get to them " + _playerName + " is by getting through me first");
-                Console.ReadKey(true);
-                Console.Clear();
-
-                Console.WriteLine("But it wont be that easy you must first solve my riddle to earn the priviliage of fighting me");
-                Console.ReadKey(true);
-                Console.Clear();
-
-                Console.WriteLine("be carful because you only get " + numberOfAttempts + " attempts.");
-
-                Console.WriteLine("I am something people celebrate or resist. I change people’s thoughts and lives. I am obvious to some people but, to others, I am a mystery. What am I?");
+                Console.WriteLine("I am something people celebrate or resist. I change people’s thoughts and lives." +
+                    "I am obvious to some people but, to others, I am a mystery. What am I?");
 
                 //Store the amount of attempts the player has remaining
                 int attemptsRemaining = numberOfAttempts + i;
 
                 //Displays the remaining number of attempts
-                Console.WriteLine("Attempts Remaining: " + attemptsRemaining);
+                Console.WriteLine("\nAttempts Remaining: " + attemptsRemaining);
+
+                //displays the players stats while solving the riddle
+                DisplayStats(_player);
 
                 //Get input for the players guess
                 Console.Write("> ");
                 input = Console.ReadLine();
+                
 
                 //If the player answered correctly...
                 if (input == "age")
                 {
                     //...print text for feedback and break the loop
-                    Console.WriteLine("Well i guess you really are the worlds greatest Detecitve. NOW FIGHT US " + _playerName + "!");
+                    Console.WriteLine("Well i guess it is true what they say" + "" +
+                    "you really are the worlds greatest Detecitve it seems you have earned the privilage of fighting us.");
                     Console.WriteLine();
                     Console.WriteLine("Press enter to continue");
+                    //then send player to the next scene
                     _currentScene = Scene.BATTLE;
                     Console.ReadKey();
                     Console.Clear();
-
                     break;
                 }
 
@@ -384,7 +387,8 @@ namespace HelloDungeonAssesment
                 Console.WriteLine("Really come on this wasn't even the hard one i thought you were the worlds greatest Dectecitve you will never save Gotham at this rate.");
                     
                 Console.ReadKey();
-                _player.TakeDamage(5);
+                _player.TakeDamage(200);
+                Console.Clear();
 
 
                 //If the player has died after guessing
@@ -392,14 +396,13 @@ namespace HelloDungeonAssesment
                 {
                     //...update the player state and print player feedback to the screen
                     _gameOver = true;
-                    Console.WriteLine("Huh... My riddle was to good i guess i really am the best no i mean... Yes i am the best.");
+                    Console.WriteLine("Huh... My riddle was to good, i guess i really am the best no i mean... Yes i am the best.");
                     Console.ReadKey();
+                    _currentScene = Scene.RESTARTMENU;
                     Console.Clear();
                     break;
                 }
             }
-
-
         
         }
 
@@ -433,12 +436,7 @@ namespace HelloDungeonAssesment
                 _currentEnemy = _enemies[_currentEnemyIndex];
             }
 
-
-
-
         }
-
-
 
         int GetInput(string description, params string[] options)
         {
