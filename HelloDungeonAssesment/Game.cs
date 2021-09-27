@@ -111,20 +111,20 @@ namespace HelloDungeonAssesment
         public void InitializeItems()
         {
             //Batman Gadgets
-            Item grapplingHook = new Item { Name = "Grappling Hook", StatBoost = 5, Type = ItemType.DEFENSE };
-            Item batterRang = new Item { Name = "BatterRang", StatBoost = 10, Type = ItemType.ATTACK };
+            Item grapplingHook = new Item { Name = "Grappling Hook", StatBoost = 200, Type = ItemType.DEFENSE };
+            Item batterRang = new Item { Name = "BatterRang", StatBoost = 300, Type = ItemType.ATTACK };
 
             //Robin Gadgets
-            Item bowStaff = new Item { Name = "Bow Staff", StatBoost = 10, Type = ItemType.ATTACK };
-            Item throwingBird = new Item { Name = "Throwing Bird", StatBoost = 5, Type = ItemType.DEFENSE };
+            Item bowStaff = new Item { Name = "Bow Staff", StatBoost = 500, Type = ItemType.ATTACK };
+            Item throwingBird = new Item { Name = "Throwing Bird", StatBoost = 250, Type = ItemType.DEFENSE };
 
             //Nightwing Gadgets
-            Item escrimaSticks = new Item { Name = "Escrima Sticks", StatBoost = 2, Type = ItemType.ATTACK };
-            Item wingDings = new Item { Name = "Wing Dings", StatBoost = 1, Type = ItemType.DEFENSE };
+            Item escrimaSticks = new Item { Name = "Escrima Sticks", StatBoost = 200, Type = ItemType.ATTACK };
+            Item wingDings = new Item { Name = "Wing Dings", StatBoost = 150, Type = ItemType.DEFENSE };
 
             //Red Hood Gadgets
-            Item dualPistols = new Item { Name = "Dual Pistols", StatBoost = 2, Type = ItemType.ATTACK };
-            Item bodyArmor = new Item { Name = "Kevlar Vest", StatBoost = 1, Type = ItemType.DEFENSE };
+            Item dualPistols = new Item { Name = "Dual Pistols", StatBoost = 9999, Type = ItemType.ATTACK };
+            Item bodyArmor = new Item { Name = "Kevlar Vest", StatBoost = 3000, Type = ItemType.DEFENSE };
 
             //Initialize arrays
             _batmanItems = new Item[] { grapplingHook, batterRang };
@@ -205,7 +205,7 @@ namespace HelloDungeonAssesment
 
             if (choice == 0)
             {
-                _currentScene = 0;
+                _currentScene = Scene.STARTMENU;
                 InitializeEnemies();
             }
             else if (choice == 1)
@@ -242,22 +242,22 @@ namespace HelloDungeonAssesment
 
             if (choice == 0)
             {
-                _player = new Player(_playerName, 200, 150, 150, _batmanItems, "Batman");
+                _player = new Player(_playerName, 250, 150, 150, _batmanItems, "Batman");
                 _currentScene++;
             }
             else if (choice == 1)
             {
-                _player = new Player(_playerName, 150, 100, 85, _robinItems, "Robin");
+                _player = new Player(_playerName, 150, 125, 95, _robinItems, "Robin");
                 _currentScene++;
             }
             else if (choice == 2)
             {
-                _player = new Player(_playerName, 1, 1, 1, _nightWingItems, "NightWing");
+                _player = new Player(_playerName, 200, 155, 125, _nightWingItems, "NightWing");
                 _currentScene++;
             }
             else if (choice == 3)
             {
-                _player = new Player(_playerName, 1, 1, 1, _redHoodItems, "Red Hood");
+                _player = new Player(_playerName, 300, 250, 175, _redHoodItems, "Red Hood");
                 _currentScene++;
             }
 
@@ -372,8 +372,8 @@ namespace HelloDungeonAssesment
                 if (input == "age")
                 {
                     //...print text for feedback and break the loop
-                    Console.WriteLine("Well i guess it is true what they say" + "" +
-                    "you really are the worlds greatest Detecitve it seems you have earned the privilage of fighting us.");
+                    Console.WriteLine("Well i guess it is true what they say" + 
+                    " you really are the worlds greatest Detecitve it seems you have earned the privilage of fighting us.");
                     Console.WriteLine();
                     Console.WriteLine("Press enter to continue");
                     //then send player to the next scene
@@ -387,7 +387,7 @@ namespace HelloDungeonAssesment
                 Console.WriteLine("Really come on this wasn't even the hard one i thought you were the worlds greatest Dectecitve you will never save Gotham at this rate.");
                     
                 Console.ReadKey();
-                _player.TakeDamage(200);
+                _player.TakeDamage(275);
                 Console.Clear();
 
 
@@ -398,10 +398,10 @@ namespace HelloDungeonAssesment
                     _gameOver = true;
                     Console.WriteLine("Huh... My riddle was to good, i guess i really am the best no i mean... Yes i am the best.");
                     Console.ReadKey();
-                    _currentScene = Scene.RESTARTMENU;
                     Console.Clear();
                     break;
                 }
+                
             }
         
         }
@@ -438,6 +438,12 @@ namespace HelloDungeonAssesment
 
         }
 
+        /// <summary>
+        /// Gets an input from the player based on some given decision
+        /// </summary>
+        /// <param name="description"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
         int GetInput(string description, params string[] options)
         {
             string input = "";
