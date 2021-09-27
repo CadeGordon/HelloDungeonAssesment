@@ -1,12 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace HelloDungeonAssesment
 {
+    public enum Scene
+    {
+        None
+    }
+
+    public struct Item
+    {
+        public string Name;
+        public float StatBoost;
+        public ItemType Type;
+    }
+
+    public enum ItemType
+    {
+        DEFENSE,
+        ATTACK,
+        NONE
+    }
+
     class Game
     {
         private bool _gameOver;
+        private Scene _currentScene;
+        private Player _player;
+        private Entity[] _enemies;
+        private int _currentEnemyIndex = 0;
+        private Entity _currentEnemy;
+        private string _playerName;
+        private Item[] _batmanItems;
+        private Item[] _robinItems;
 
         public void Run()
         {
@@ -35,8 +63,48 @@ namespace HelloDungeonAssesment
             
         }
 
+        void DisplayCurrentScene()
+        {
+
+        }
+
+
         public void InitializeItems()
         {
+            //Batman Gadgets
+            Item grapplingHook = new Item { Name = "Grappling Hook", StatBoost = 5, Type = ItemType.DEFENSE };
+            Item batterRang = new Item { Name = "BatterRang", StatBoost = 10, Type = ItemType.ATTACK };
+
+            //Robin Gadgets
+            Item bowStaff = new Item { Name = "Bow Staff", StatBoost = 10, Type = ItemType.ATTACK };
+            Item throwingBird = new Item { Name = "Throwing Bird", StatBoost = 5, Type = ItemType.DEFENSE };
+
+            //Initialize arrays
+            _batmanItems = new Item[] { grapplingHook, batterRang };
+            _robinItems = new Item[] { bowStaff, throwingBird };
+        }
+
+
+        /// <summary>
+        /// Displays text asking for the players name. Doesn't transition to the next section
+        /// until the player decides to keep the name.
+        /// </summary>
+        void GetPlayerName()
+        {
+
+            Console.WriteLine("Welcome! Please enter your name.");
+            _playerName = Console.ReadLine();
+
+            Console.Clear();
+
+            int choice = GetInput("You've entered " + _playerName + ", are you sure you want to keep this name?", "Yes", "No");
+
+            if (choice == 0)
+            {
+                _currentScene++;
+            }
+
+
 
         }
 
