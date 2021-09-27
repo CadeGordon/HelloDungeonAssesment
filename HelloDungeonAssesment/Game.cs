@@ -10,9 +10,10 @@ namespace HelloDungeonAssesment
         STARTMENU,
         NAMECREATION,
         CHARACTERSELECTION,
+        RIDDLERROOM,
         BATTLE,
-        RESTARTMENU,
-        RIDDLERROOM
+        RESTARTMENU
+        
     }
 
     public struct Item
@@ -66,6 +67,7 @@ namespace HelloDungeonAssesment
             _gameOver = false;
             _currentScene = 0;
             InitializeItems();
+            InitializeEnemies();
         }
 
         public void End()
@@ -83,15 +85,25 @@ namespace HelloDungeonAssesment
         {
             switch (_currentScene)
             {
-                    case Scene.STARTMENU:
-                DisplayStartMenu();
-                break;
-                    case Scene.NAMECREATION:
-                        GetPlayerName();
-                break;
-                    case Scene.CHARACTERSELECTION:
-                       CharacterSelection();
-                break;
+                case Scene.STARTMENU:
+                    DisplayStartMenu();
+                    break;
+                case Scene.NAMECREATION:
+                    GetPlayerName();
+                    break;
+                case Scene.CHARACTERSELECTION:
+                    CharacterSelection();
+                    break;
+                case Scene.RIDDLERROOM:
+                    RiddlerRiddle();
+                    break;
+                case Scene.BATTLE:
+                    Battle();
+                    CheckBattleResults();
+                    break;
+
+                
+                  
                     
             }
         }
@@ -317,11 +329,78 @@ namespace HelloDungeonAssesment
             Console.ReadKey(true);
             Console.Clear();
 
+        }
+
+        public void RiddlerRiddle()
+        {
+            int numberOfAttempts = 3;
+            string input = "";
+
+            for (int i = 0; i < numberOfAttempts; i--)
+            {
+                Console.Clear();
+
+                Console.WriteLine("Welcome to Gotham " + _playerName + " In case you havent heard yet, several of Gothams most notoroius villains have ecscaped Arkham Asylum including myself the riddler the most dangoures of all of The Batmans villains.");
+                Console.ReadKey(true);
+                Console.Clear();
+
+                Console.WriteLine("But the only way you will get to them " + _playerName + " is by getting through me first");
+                Console.ReadKey(true);
+                Console.Clear();
+
+                Console.WriteLine("But it wont be that easy you must first solve my riddle to earn the priviliage of fighting me");
+                Console.ReadKey(true);
+                Console.Clear();
+
+                Console.WriteLine("be carful because you only get " + numberOfAttempts + " attempts.");
+
+                Console.WriteLine("I am something people celebrate or resist. I change people’s thoughts and lives. I am obvious to some people but, to others, I am a mystery. What am I?");
+
+                //Store the amount of attempts the player has remaining
+                int attemptsRemaining = numberOfAttempts + i;
+
+                //Displays the remaining number of attempts
+                Console.WriteLine("Attempts Remaining: " + attemptsRemaining);
+
+                //Get input for the players guess
+                Console.Write("> ");
+                input = Console.ReadLine();
+
+                //If the player answered correctly...
+                if (input == "age")
+                {
+                    //...print text for feedback and break the loop
+                    Console.WriteLine("Well i guess you really are the worlds greatest Detecitve. NOW FIGHT US " + _playerName + "!");
+                    Console.WriteLine();
+                    Console.WriteLine("Press enter to continue");
+                    _currentScene = Scene.BATTLE;
+                    Console.ReadKey();
+                    Console.Clear();
+
+                    break;
+                }
+
+                //If the player doesn't answer correctly deal damage to them
+                Console.WriteLine("Really come on this wasn't even the hard one i thought you were the worlds greatest Dectecitve you will never save Gotham at this rate.");
+                    
+                Console.ReadKey();
+                _player.TakeDamage(5);
 
 
+                //If the player has died after guessing
+                if ( _player.Health <= 0)
+                {
+                    //...update the player state and print player feedback to the screen
+                    _gameOver = true;
+                    Console.WriteLine("Huh... My riddle was to good i guess i really am the best no i mean... Yes i am the best.");
+                    Console.ReadKey();
+                    Console.Clear();
+                    break;
+                }
+            }
 
 
-
+        
         }
 
         /// <summary>
