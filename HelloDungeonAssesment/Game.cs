@@ -12,6 +12,7 @@ namespace HelloDungeonAssesment
         CHARACTERSELECTION,
         RIDDLERROOM,
         BATTLE,
+        TALON,
         RESTARTMENU
         
     }
@@ -36,8 +37,10 @@ namespace HelloDungeonAssesment
         private Scene _currentScene;
         private Player _player;
         private Entity[] _enemies;
+        private Entity[] _talons;
         private int _currentEnemyIndex = 0;
         private Entity _currentEnemy;
+        private Entity _currentEnemyTalons;
         private string _playerName;
         private Item[] _batmanItems;
         private Item[] _robinItems;
@@ -73,7 +76,7 @@ namespace HelloDungeonAssesment
         //Shows the ending text when player exits application
         public void End()
         {
-            Console.WriteLine("");
+            Console.WriteLine("The court will be observing, waiting, until the time is right bat family the court will be waiting - the court ");
         }
 
         private void Update()
@@ -100,6 +103,9 @@ namespace HelloDungeonAssesment
                 case Scene.BATTLE:
                     Battle();
                     CheckBattleResults();
+                    break;
+                case Scene.TALON:
+                    CourtOfOwlsScene();
                     break;
                 case Scene.RESTARTMENU:
                     DisplayRestartMenu();
@@ -154,9 +160,21 @@ namespace HelloDungeonAssesment
 
             Entity joker = new Entity("Joker", 350, 160, 315);
 
+            Entity talon1 = new Entity("The Black Talon", 0, 0, 0);
+
+            Entity talon2 = new Entity("The White Talon", 0, 0, 0);
+
+            Entity talon3 = new Entity("The Golden Talon", 0, 0, 0);
+
+            Entity sensei = new Entity("The Sensei", 0, 0, 0);
+
+            _talons = new Entity[] { talon1, talon2, talon3, sensei };
+
             _enemies = new Entity[] { riddler, mrFreeze, killerCroc, blackMask, bane, deathStroke, pyg, joker };
 
             _currentEnemy = _enemies[_currentEnemyIndex];
+
+            _currentEnemyTalons = _talons[_currentEnemyIndex];
 
         }
 
@@ -292,7 +310,7 @@ namespace HelloDungeonAssesment
         }
 
         /// <summary>
-        /// Simulates one turn in the current monster fight
+        /// Simulates one turn in the current villian fight
         /// </summary>
         public void Battle()
         {
@@ -341,6 +359,94 @@ namespace HelloDungeonAssesment
             Console.Clear();
 
         }
+
+
+        /// <summary>
+        /// Simulates one turn in the current villian fight
+        /// </summary>
+        public void TalonBattle()
+        {
+            float damageDealt = 0;
+
+            DisplayStats(_player);
+            DisplayStats(_currentEnemyTalons);
+
+            int choice = GetInput(_currentEnemy.Name + " stands in front of you! What will you do?", "Attack", "Equip Item", "Remove Current Item", "Save");
+
+            if (choice == 0)
+            {
+                damageDealt = _player.Attack(_currentEnemyTalons);
+                Console.WriteLine("You dealt " + damageDealt + " damage!");
+            }
+            else if (choice == 1)
+            {
+                DisplayEquipitemMenu();
+                Console.ReadKey();
+                Console.Clear();
+                return;
+            }
+            else if (choice == 2)
+            {
+                if (!_player.TryRemoveCurrentItem())
+                    Console.WriteLine("You dont have anything equipped.");
+                else
+                    Console.WriteLine("You place the item in your utility belt");
+
+                Console.ReadKey(true);
+                Console.Clear();
+                return;
+            }
+            else if (choice == 3)
+            {
+                Save();
+                Console.WriteLine("Saved Game");
+                Console.ReadKey(true);
+                return;
+            }
+
+            damageDealt = _currentEnemyTalons.Attack(_player);
+            Console.WriteLine(_currentEnemyTalons.Name + " dealt " + damageDealt + " damage!");
+
+            Console.ReadKey(true);
+            Console.Clear();
+
+        }
+
+        /// <summary>
+        /// Checks to see if either the player or the enemy has won the current battle.
+        /// Updates the game based on who won the battle..
+        /// </summary>
+        void CheckTalonBattleResults()
+        {
+            if (_player.Health <= 0)
+            {
+                Console.WriteLine("You have failed and now Gotham shall fall!!!");
+                Console.ReadKey(true);
+                Console.Clear();
+                _currentScene = Scene.RESTARTMENU;
+            }
+            else if (_currentEnemy.Health <= 0)
+            {
+                Console.WriteLine("You sent " + _currentEnemyTalons.Name + " back to Arkham");
+                Console.ReadKey();
+                Console.Clear();
+                _currentEnemyIndex++;
+
+                if (_currentEnemyIndex >= _talons.Length)
+                {
+                    _currentScene = Scene.RESTARTMENU;
+                    Console.WriteLine("You defeated all the escaped villains and sent them back to Arkham");
+                    return;
+                }
+
+                _currentEnemyTalons = _talons[_currentEnemyIndex];
+            }
+
+        }
+
+
+
+
 
         //First encounter in which player must solve a riddle before moving on
         public void RiddlerRiddle()
@@ -426,6 +532,20 @@ namespace HelloDungeonAssesment
         
         }
 
+        public void CourtOfOwlsScene()
+        {
+            Console.WriteLine("You have defeated all the villains and sent them back to Arkham Asylum but something feels off");
+            Console.ReadKey(true);
+            Console.Clear();
+
+            
+            
+        }
+
+
+
+
+
         /// <summary>
         /// Checks to see if either the player or the enemy has won the current battle.
         /// Updates the game based on who won the battle..
@@ -448,8 +568,8 @@ namespace HelloDungeonAssesment
 
                 if (_currentEnemyIndex >= _enemies.Length)
                 {
-                    _currentScene = Scene.RESTARTMENU;
-                    Console.WriteLine("You defeated all the escaped villains and sent them back to Arkham");
+                    _currentScene = Scene.TALON;
+                    
                     return;
                 }
 
