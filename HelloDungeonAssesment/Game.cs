@@ -70,9 +70,10 @@ namespace HelloDungeonAssesment
             InitializeEnemies();
         }
 
+        //Shows the ending text when player exits application
         public void End()
         {
-            Console.WriteLine("add something cool later");
+            Console.WriteLine("");
         }
 
         private void Update()
@@ -137,21 +138,21 @@ namespace HelloDungeonAssesment
         {
             _currentEnemyIndex = 0;
 
-            Entity riddler = new Entity("Riddler", 50, 180, 35);
+            Entity riddler = new Entity("Riddler", 100, 25, 250);
 
-            Entity mrFreeze = new Entity("Mr. Freeze", 85, 175, 70);
+            Entity mrFreeze = new Entity("Mr. Freeze", 250, 175, 400);
 
-            Entity killerCroc = new Entity("Killer Croc", 20, 20, 20);
+            Entity killerCroc = new Entity("Killer Croc", 1000, 325, 500);
 
-            Entity blackMask = new Entity("Black Mask", 20, 20, 20);
+            Entity blackMask = new Entity("Black Mask", 150, 50, 255);
 
-            Entity bane = new Entity("Bane", 20, 20, 20);
+            Entity bane = new Entity("Bane", 550, 300, 450);
 
-            Entity deathStroke = new Entity("DeathStroke", 20, 20, 20);
+            Entity deathStroke = new Entity("DeathStroke", 225, 200, 300);
 
-            Entity pyg = new Entity("Proffesor Pyg", 20, 20, 20);
+            Entity pyg = new Entity("Proffesor Pyg", 125, 35, 252);
 
-            Entity joker = new Entity("Joker", 20, 20, 20);
+            Entity joker = new Entity("Joker", 350, 250, 315);
 
             _enemies = new Entity[] { riddler, mrFreeze, killerCroc, blackMask, bane, deathStroke, pyg, joker };
 
