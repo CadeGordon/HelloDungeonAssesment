@@ -112,15 +112,15 @@ namespace HelloDungeonAssesment
         public void InitializeItems()
         {
             //Batman Gadgets
-            Item grapplingHook = new Item { Name = "Grappling Hook", StatBoost = 200, Type = ItemType.DEFENSE };
-            Item batterRang = new Item { Name = "BatterRang", StatBoost = 300, Type = ItemType.ATTACK };
+            Item grapplingHook = new Item { Name = "Grappling Hook", StatBoost = 300, Type = ItemType.DEFENSE };
+            Item batterRang = new Item { Name = "BatterRang", StatBoost = 350, Type = ItemType.ATTACK };
 
             //Robin Gadgets
-            Item bowStaff = new Item { Name = "Bow Staff", StatBoost = 500, Type = ItemType.ATTACK };
-            Item throwingBird = new Item { Name = "Throwing Bird", StatBoost = 250, Type = ItemType.DEFENSE };
+            Item bowStaff = new Item { Name = "Bow Staff", StatBoost = 250, Type = ItemType.ATTACK };
+            Item throwingBird = new Item { Name = "Throwing Bird", StatBoost = 150, Type = ItemType.DEFENSE };
 
             //Nightwing Gadgets
-            Item escrimaSticks = new Item { Name = "Escrima Sticks", StatBoost = 200, Type = ItemType.ATTACK };
+            Item escrimaSticks = new Item { Name = "Escrima Sticks", StatBoost = 365, Type = ItemType.ATTACK };
             Item wingDings = new Item { Name = "Wing Dings", StatBoost = 150, Type = ItemType.DEFENSE };
 
             //Red Hood Gadgets
@@ -140,19 +140,19 @@ namespace HelloDungeonAssesment
 
             Entity riddler = new Entity("Riddler", 100, 25, 250);
 
-            Entity mrFreeze = new Entity("Mr. Freeze", 250, 175, 400);
+            Entity mrFreeze = new Entity("Mr. Freeze", 250, 160, 400);
 
-            Entity killerCroc = new Entity("Killer Croc", 1000, 325, 500);
+            Entity killerCroc = new Entity("Killer Croc", 750, 200, 460);
 
             Entity blackMask = new Entity("Black Mask", 150, 50, 255);
 
-            Entity bane = new Entity("Bane", 550, 300, 450);
+            Entity bane = new Entity("Bane", 550, 176, 450);
 
-            Entity deathStroke = new Entity("DeathStroke", 225, 200, 300);
+            Entity deathStroke = new Entity("DeathStroke", 225, 170, 300);
 
             Entity pyg = new Entity("Proffesor Pyg", 125, 35, 252);
 
-            Entity joker = new Entity("Joker", 350, 250, 315);
+            Entity joker = new Entity("Joker", 350, 160, 315);
 
             _enemies = new Entity[] { riddler, mrFreeze, killerCroc, blackMask, bane, deathStroke, pyg, joker };
 
@@ -255,22 +255,22 @@ namespace HelloDungeonAssesment
 
             if (choice == 0)
             {
-                _player = new Player(_playerName, 300, 150, 150, _batmanItems, "Batman");
+                _player = new Player(_playerName, 425, 325, 150, _batmanItems, "Batman");
                 _currentScene++;
             }
             else if (choice == 1)
             {
-                _player = new Player(_playerName, 300, 125, 150, _robinItems, "Robin");
+                _player = new Player(_playerName, 425, 250, 150, _robinItems, "Robin");
                 _currentScene++;
             }
             else if (choice == 2)
             {
-                _player = new Player(_playerName, 300, 155, 150, _nightWingItems, "NightWing");
+                _player = new Player(_playerName, 425, 270, 150, _nightWingItems, "NightWing");
                 _currentScene++;
             }
             else if (choice == 3)
             {
-                _player = new Player(_playerName, 300, 250, 150, _redHoodItems, "Red Hood");
+                _player = new Player(_playerName, 425, 325, 150, _redHoodItems, "Red Hood");
                 _currentScene++;
             }
 
