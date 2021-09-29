@@ -84,11 +84,13 @@ namespace HelloDungeonAssesment
             Console.WriteLine("The court will be observing, waiting until the time is right " + _playerName + " The court will be watching - The Court of Owls");
         }
 
+        //updates current scene in main game loop
         private void Update()
         {
             DisplayCurrentScene();
         }
 
+        //Displays the current player scene and updates accordinly
         void DisplayCurrentScene()
         {
             switch (_currentScene)
@@ -129,7 +131,7 @@ namespace HelloDungeonAssesment
             }
         }
 
-        
+        //initialze all items on game launch
         public void InitializeItems()
         {
             //Batman Gadgets
@@ -155,7 +157,8 @@ namespace HelloDungeonAssesment
             _redHoodItems = new Item[] { dualPistols, bodyArmor };
         }
 
-        public void InitializeEnemies()
+        //Initializes all enemies on game start
+        private void InitializeEnemies()
         {
             _currentEnemyIndex = 0;
 
@@ -189,6 +192,7 @@ namespace HelloDungeonAssesment
 
         }
 
+        //Displays when player starts application
         public void DisplayStartMenu()
         {
             int choice = GetInput("Welcome to Gotham Defenders", "Start New Game", "Load Game");
@@ -278,7 +282,7 @@ namespace HelloDungeonAssesment
         /// Gets the players choice of character. Updates player stats based on
         /// the character chosen.
         /// </summary>
-        public void CharacterSelection()
+        private void CharacterSelection()
         {
             int choice = GetInput("Welcome to Gotham " + _playerName + ", choose your character", "Batman", "Robin", "NightWing", "RedHood");
 
@@ -306,6 +310,7 @@ namespace HelloDungeonAssesment
 
         }
 
+        //allows player to see what item was just equipped
         public void DisplayEquipitemMenu()
         {
             //Get item index
@@ -448,7 +453,7 @@ namespace HelloDungeonAssesment
 
         }
 
-
+        //Function is display after the talon fight has concluded
         public void TalonEnding()
         {
             Console.WriteLine("Thank you for the assesment on my Talon " + _playerName + " unfortunatly we are not ready " +
@@ -545,6 +550,7 @@ namespace HelloDungeonAssesment
         
         }
 
+        //function that is played once the player has completed the first battle simulation
         public void CourtOfOwlsScene()
         {
             Console.WriteLine("You have defeated all the villains and sent them back to Arkham Asylum but something feels off");
@@ -570,22 +576,27 @@ namespace HelloDungeonAssesment
 
             int choice = GetInput("The strange man tells you to go to GCPD, what will you do", "Investigate the strange mans request", "Return to the Batcave");
 
+            //if player choose option 1...
             if (choice == 0)
             {
+                //... send player to next scene
                 _currentScene = Scene.GCPD;
             }
             else
             {
+                //send player to restart menu
                 _currentScene = Scene.RESTARTMENU;
             }
 
 
         }
 
+        //function that holds the GCPD game scene
         public void PoliceStationScene()
         {
             int choice = GetInput("You arrive GCPD this is your last chance do you wish to enter", "Yes", "Return the Batcave");
 
+            //if player chooses option 1...
             if (choice == 0)
             {
                 Console.WriteLine("You enter the staion and see a figure with glowing eyes waiting for you " +
@@ -593,11 +604,13 @@ namespace HelloDungeonAssesment
                 Console.ReadKey(true);
                 Console.Clear();
 
+                //... send player to the next scene
                 _currentScene = Scene.TALONFIGHT;
 
             }
             else
             {
+                //display restart screen
                 _currentScene = Scene.RESTARTMENU;
             }
         }
