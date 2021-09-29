@@ -169,7 +169,19 @@ namespace HelloDungeonAssesment
             }
             else if (choice == 1)
             {
-
+                if (Load())
+                {
+                    Console.WriteLine("Load successful");
+                    _currentScene = Scene.BATTLE;
+                    Console.ReadKey(true);
+                    Console.Clear();
+                }
+                else
+                {
+                    Console.WriteLine("Load failed");
+                    Console.ReadKey(true);
+                    Console.Clear();
+                }
             }   
         }
 
@@ -242,22 +254,22 @@ namespace HelloDungeonAssesment
 
             if (choice == 0)
             {
-                _player = new Player(_playerName, 250, 150, 150, _batmanItems, "Batman");
+                _player = new Player(_playerName, 300, 150, 150, _batmanItems, "Batman");
                 _currentScene++;
             }
             else if (choice == 1)
             {
-                _player = new Player(_playerName, 150, 125, 95, _robinItems, "Robin");
+                _player = new Player(_playerName, 300, 125, 150, _robinItems, "Robin");
                 _currentScene++;
             }
             else if (choice == 2)
             {
-                _player = new Player(_playerName, 200, 155, 125, _nightWingItems, "NightWing");
+                _player = new Player(_playerName, 300, 155, 150, _nightWingItems, "NightWing");
                 _currentScene++;
             }
             else if (choice == 3)
             {
-                _player = new Player(_playerName, 300, 250, 175, _redHoodItems, "Red Hood");
+                _player = new Player(_playerName, 300, 250, 150, _redHoodItems, "Red Hood");
                 _currentScene++;
             }
 
@@ -313,6 +325,13 @@ namespace HelloDungeonAssesment
                 Console.Clear();
                 return;
             }
+            else if (choice == 3)
+            {
+                Save();
+                Console.WriteLine("Saved Game");
+                Console.ReadKey(true);
+                return;
+            }
 
             damageDealt = _currentEnemy.Attack(_player);
             Console.WriteLine(_currentEnemy.Name + " dealt " + damageDealt + " damage!");
@@ -322,7 +341,7 @@ namespace HelloDungeonAssesment
 
         }
 
-        //need to fix the loop when player gets answer wrong
+        //First encounter in which player must solve a riddle before moving on
         public void RiddlerRiddle()
         {
             int numberOfAttempts = 3;
@@ -395,8 +414,8 @@ namespace HelloDungeonAssesment
                 if ( _player.Health <= 0)
                 {
                     //...update the player state and print player feedback to the screen
-                    _gameOver = true;
                     Console.WriteLine("Huh... My riddle was to good, i guess i really am the best no i mean... Yes i am the best.");
+                    _currentScene = Scene.RESTARTMENU;
                     Console.ReadKey();
                     Console.Clear();
                     break;
@@ -437,6 +456,76 @@ namespace HelloDungeonAssesment
             }
 
         }
+
+
+        public void Save()
+        {
+            //Creat a new stream writer
+            StreamWriter writer = new StreamWriter("SaveData.txt");
+
+            //Save current enemy index
+            writer.WriteLine(_currentEnemyIndex);
+
+            //Save player and enemy stats
+            _player.Save(writer);
+            _currentEnemy.Save(writer);
+
+            //Close writer when done saving
+            writer.Close();
+        }
+
+
+        public bool Load()
+        {
+            bool loadSuccessful = true;
+            //If the file doesnt exist...
+            if (!File.Exists("SaveData.txt"))
+            {
+                loadSuccessful = false;
+            }
+
+            //Create a new reader to read from the text file
+            StreamReader reader = new StreamReader("SaveData.txt");
+
+            //If the file line cant be converted be into an integer
+            if (!int.TryParse(reader.ReadLine(), out _currentEnemyIndex))
+                //...return false
+                return false;
+
+            string job = reader.ReadLine();
+
+            if (job == "Batman")
+                _player = new Player(_batmanItems);
+            else if (job == "Robin")
+                _player = new Player(_robinItems);
+            else if (job == "NightWing")
+                _player = new Player(_nightWingItems);
+            else if (job == "Red Hood")
+                _player = new Player(_redHoodItems);
+            else
+                loadSuccessful = false;
+
+            _player.Job = job;
+
+            if (!_player.Load(reader))
+                loadSuccessful = false;
+
+            //Create a new instacne and try load the enemy
+            _currentEnemy = new Entity();
+            if (!_currentEnemy.Load(reader))
+                loadSuccessful = false;
+
+            //update the array to match the current enemy stats
+            _enemies[_currentEnemyIndex] = _currentEnemy;
+
+            //Close the reader once loading is finished
+            reader.Close();
+
+            return loadSuccessful;
+        }
+
+
+
 
         /// <summary>
         /// Gets an input from the player based on some given decision

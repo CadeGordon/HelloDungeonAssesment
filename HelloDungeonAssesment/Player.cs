@@ -79,8 +79,6 @@ namespace HelloDungeonAssesment
         }
 
 
-
-
         /// <summary>
         /// Sets the item at the given index to be the current item 
         /// </summary>
@@ -163,7 +161,10 @@ namespace HelloDungeonAssesment
                 return false;
 
             //Return whether or not the item was equipped successfully
-            return TryEquipItem(_currentItemIndex);
+            
+            //return TryEquipItem(_currentItemIndex);
+           
+            return true;
 
         }
     }
