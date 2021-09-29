@@ -13,7 +13,11 @@ namespace HelloDungeonAssesment
         RIDDLERROOM,
         BATTLE,
         TALON,
+        GCPD,
+        TALONFIGHT,
+        END,
         RESTARTMENU
+        
         
     }
 
@@ -39,6 +43,7 @@ namespace HelloDungeonAssesment
         private Entity[] _enemies;
         private Entity[] _talons;
         private int _currentEnemyIndex = 0;
+        private int _currentEnemyTalonIndex = 0;
         private Entity _currentEnemy;
         private Entity _currentEnemyTalons;
         private string _playerName;
@@ -76,7 +81,7 @@ namespace HelloDungeonAssesment
         //Shows the ending text when player exits application
         public void End()
         {
-            Console.WriteLine("The court will be observing, waiting, until the time is right bat family the court will be waiting - the court ");
+            Console.WriteLine("The court will be observing, waiting, until the time is right bat family the court will be waiting - the court of owls ");
         }
 
         private void Update()
@@ -106,6 +111,16 @@ namespace HelloDungeonAssesment
                     break;
                 case Scene.TALON:
                     CourtOfOwlsScene();
+                    break;
+                case Scene.GCPD:
+                    PoliceStationScene();
+                    break;
+                case Scene.TALONFIGHT:
+                    TalonBattle();
+                    CheckTalonBattleResults();
+                    break;
+                case Scene.END:
+                    TalonEnding();
                     break;
                 case Scene.RESTARTMENU:
                     DisplayRestartMenu();
@@ -144,6 +159,8 @@ namespace HelloDungeonAssesment
         {
             _currentEnemyIndex = 0;
 
+            _currentEnemyTalonIndex = 0;
+
             Entity riddler = new Entity("Riddler", 100, 25, 250);
 
             Entity mrFreeze = new Entity("Mr. Freeze", 250, 160, 400);
@@ -160,21 +177,15 @@ namespace HelloDungeonAssesment
 
             Entity joker = new Entity("Joker", 350, 160, 315);
 
-            Entity talon1 = new Entity("The Black Talon", 0, 0, 0);
+            Entity talon1 = new Entity("The Talon", 1, 1, 1);
 
-            Entity talon2 = new Entity("The White Talon", 0, 0, 0);
-
-            Entity talon3 = new Entity("The Golden Talon", 0, 0, 0);
-
-            Entity sensei = new Entity("The Sensei", 0, 0, 0);
-
-            _talons = new Entity[] { talon1, talon2, talon3, sensei };
+            _talons = new Entity[] { talon1 };
 
             _enemies = new Entity[] { riddler, mrFreeze, killerCroc, blackMask, bane, deathStroke, pyg, joker };
 
             _currentEnemy = _enemies[_currentEnemyIndex];
 
-            _currentEnemyTalons = _talons[_currentEnemyIndex];
+            _currentEnemyTalons = _talons[_currentEnemyTalonIndex];
 
         }
 
@@ -362,7 +373,7 @@ namespace HelloDungeonAssesment
 
 
         /// <summary>
-        /// Simulates one turn in the current villian fight
+        /// Simulates one turn in the current talon fight
         /// </summary>
         public void TalonBattle()
         {
@@ -371,7 +382,7 @@ namespace HelloDungeonAssesment
             DisplayStats(_player);
             DisplayStats(_currentEnemyTalons);
 
-            int choice = GetInput(_currentEnemy.Name + " stands in front of you! What will you do?", "Attack", "Equip Item", "Remove Current Item", "Save");
+            int choice = GetInput(_currentEnemyTalons.Name + " stands in front of you! What will you do?", "Attack", "Equip Item", "Remove Current Item");
 
             if (choice == 0)
             {
@@ -396,13 +407,7 @@ namespace HelloDungeonAssesment
                 Console.Clear();
                 return;
             }
-            else if (choice == 3)
-            {
-                Save();
-                Console.WriteLine("Saved Game");
-                Console.ReadKey(true);
-                return;
-            }
+            
 
             damageDealt = _currentEnemyTalons.Attack(_player);
             Console.WriteLine(_currentEnemyTalons.Name + " dealt " + damageDealt + " damage!");
@@ -434,18 +439,25 @@ namespace HelloDungeonAssesment
 
                 if (_currentEnemyIndex >= _talons.Length)
                 {
-                    _currentScene = Scene.RESTARTMENU;
-                    Console.WriteLine("You defeated all the escaped villains and sent them back to Arkham");
-                    return;
+                    _currentScene = Scene.END;
+                    
                 }
 
-                _currentEnemyTalons = _talons[_currentEnemyIndex];
+                _currentEnemyTalons = _talons[_currentEnemyTalonIndex];
             }
 
         }
 
 
+        public void TalonEnding()
+        {
+            Console.WriteLine("Thank you for the assessment on my Talons " + _playerName + " unfortunatly we are not ready" +
+                "to reveal our selves just yet but we see all, control all, until we meet again - The Court of Owls");
+            Console.ReadKey(true);
+            Console.Clear();
 
+            _currentScene = Scene.RESTARTMENU;
+        }
 
 
         //First encounter in which player must solve a riddle before moving on
@@ -538,8 +550,55 @@ namespace HelloDungeonAssesment
             Console.ReadKey(true);
             Console.Clear();
 
-            
-            
+            Console.WriteLine("A billboard in the middle of Gotham turns on getting all the citizens on Gothams attention");
+            Console.ReadKey(true);
+            Console.Clear();
+
+            Console.WriteLine("Its a man dressed in a suit wearing some kind of mask and begins to speak");
+            Console.ReadKey(true);
+            Console.Clear();
+
+            Console.WriteLine("Attention citizens of Gotham today we showed you a small fraction of our power" +
+                "how ever do you fear we only wish to assess this city and its HEROS");
+            Console.ReadKey(true);
+            Console.Clear();
+
+            Console.WriteLine("That's right " + _playerName + " I am refering to you HERO so if we have attention come to the GCPD");
+            Console.ReadKey(true);
+            Console.Clear();
+
+            int choice = GetInput("The strange man tells you to go to GCPD, what will you do", "Investing the strange mans request", "return to the Batcave");
+
+            if (choice == 0)
+            {
+                _currentScene = Scene.GCPD;
+            }
+            else
+            {
+                _currentScene = Scene.RESTARTMENU;
+            }
+
+
+        }
+
+        public void PoliceStationScene()
+        {
+            int choice = GetInput("you arrive GCPD this is your last chance do you wish to enter", "Yes", "No");
+
+            if (choice == 0)
+            {
+                Console.WriteLine("You enter the staion and see a figure with glowing eyes waiting for you" +
+                    "they look like owls and before you can react it springs into action");
+                Console.ReadKey(true);
+                Console.Clear();
+
+                _currentScene = Scene.TALONFIGHT;
+
+            }
+            else
+            {
+                _currentScene = Scene.RESTARTMENU;
+            }
         }
 
 
