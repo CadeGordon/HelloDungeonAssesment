@@ -81,7 +81,7 @@ namespace HelloDungeonAssesment
         //Shows the ending text when player exits application
         public void End()
         {
-            Console.WriteLine("The court will be observing, waiting, until the time is right bat family the court will be waiting - the court of owls ");
+            Console.WriteLine("The court will be observing, waiting until the time is right " + _playerName + " The court will be watching - The Court of Owls");
         }
 
         private void Update()
@@ -191,7 +191,7 @@ namespace HelloDungeonAssesment
 
         public void DisplayStartMenu()
         {
-            int choice = GetInput("Welcome to Gotham Defenders ", "Start New Game", "Load Game");
+            int choice = GetInput("Welcome to Gotham Defenders", "Start New Game", "Load Game");
 
             if (choice == 0)
             {
@@ -432,7 +432,7 @@ namespace HelloDungeonAssesment
             }
             else if (_currentEnemy.Health <= 0)
             {
-                Console.WriteLine("You sent " + _currentEnemyTalons.Name + " back to Arkham");
+                Console.WriteLine("You defeated " + _currentEnemyTalons.Name);
                 Console.ReadKey();
                 Console.Clear();
                 _currentEnemyIndex++;
@@ -451,8 +451,8 @@ namespace HelloDungeonAssesment
 
         public void TalonEnding()
         {
-            Console.WriteLine("Thank you for the assessment on my Talons " + _playerName + " unfortunatly we are not ready" +
-                "to reveal our selves just yet but we see all, control all, until we meet again - The Court of Owls");
+            Console.WriteLine("Thank you for the assesment on my Talon " + _playerName + " unfortunatly we are not ready " +
+                " to reveal our selves just yet but we see all and control all until we meet again - The Court of Owls");
             Console.ReadKey(true);
             Console.Clear();
 
@@ -478,11 +478,11 @@ namespace HelloDungeonAssesment
             Console.ReadKey(true);
             Console.Clear();
 
-            Console.WriteLine("But it wont be that easy you must first solve my riddle to earn the priviliage of fighting me");
+            Console.WriteLine("But it wont be that easy you must first solve my riddle to earn the priviliage of fighting us");
             Console.ReadKey(true);
             Console.Clear();
 
-            Console.WriteLine("be carful because you only get " + numberOfAttempts + " attempts.");
+            Console.WriteLine("Be carful because you only get " + numberOfAttempts + " attempts.");
             Console.ReadKey(true);
             Console.Clear();
 
@@ -509,8 +509,9 @@ namespace HelloDungeonAssesment
                 //If the player answered correctly...
                 if (input == "age")
                 {
+
                     //...print text for feedback and break the loop
-                    Console.WriteLine("Well i guess it is true what they say" + 
+                    Console.WriteLine("\nWell i guess it is true what they say " + 
                     " you really are the worlds greatest Detecitve it seems you have earned the privilage of fighting us.");
                     Console.WriteLine();
                     Console.WriteLine("Press enter to continue");
@@ -533,7 +534,7 @@ namespace HelloDungeonAssesment
                 if ( _player.Health <= 0)
                 {
                     //...update the player state and print player feedback to the screen
-                    Console.WriteLine("Huh... My riddle was to good, i guess i really am the best no i mean... Yes i am the best.");
+                    Console.WriteLine("Huh... My riddle was to good, I guess I really am the best no I mean... Yes I am the best.");
                     _currentScene = Scene.RESTARTMENU;
                     Console.ReadKey();
                     Console.Clear();
@@ -550,24 +551,24 @@ namespace HelloDungeonAssesment
             Console.ReadKey(true);
             Console.Clear();
 
-            Console.WriteLine("A billboard in the middle of Gotham turns on getting all the citizens on Gothams attention");
+            Console.WriteLine("A billboard in the middle of Gotham turns on getting all the citizens of Gothams attention");
             Console.ReadKey(true);
             Console.Clear();
 
-            Console.WriteLine("Its a man dressed in a suit wearing some kind of mask and begins to speak");
+            Console.WriteLine("Its a man dressed in a suit wearing a owl mask and begins to speak");
             Console.ReadKey(true);
             Console.Clear();
 
-            Console.WriteLine("Attention citizens of Gotham today we showed you a small fraction of our power" +
-                "how ever do you fear we only wish to assess this city and its HEROS");
+            Console.WriteLine("Attention citizens of Gotham today we have shown you a small fraction of our power by releasing dangerous criminals into the streets of Gotham " +
+                " how ever do not fear we only wish to assess this city and its HEROS");
             Console.ReadKey(true);
             Console.Clear();
 
-            Console.WriteLine("That's right " + _playerName + " I am refering to you HERO so if we have attention come to the GCPD");
+            Console.WriteLine("That's right " + _playerName + " I am refering to you so if we have your attention please come to the GCPD");
             Console.ReadKey(true);
             Console.Clear();
 
-            int choice = GetInput("The strange man tells you to go to GCPD, what will you do", "Investing the strange mans request", "return to the Batcave");
+            int choice = GetInput("The strange man tells you to go to GCPD, what will you do", "Investigate the strange mans request", "Return to the Batcave");
 
             if (choice == 0)
             {
@@ -583,12 +584,12 @@ namespace HelloDungeonAssesment
 
         public void PoliceStationScene()
         {
-            int choice = GetInput("you arrive GCPD this is your last chance do you wish to enter", "Yes", "No");
+            int choice = GetInput("You arrive GCPD this is your last chance do you wish to enter", "Yes", "Return the Batcave");
 
             if (choice == 0)
             {
-                Console.WriteLine("You enter the staion and see a figure with glowing eyes waiting for you" +
-                    "they look like owls and before you can react it springs into action");
+                Console.WriteLine("You enter the staion and see a figure with glowing eyes waiting for you " +
+                    " they look like an owl and before you can react it springs into action");
                 Console.ReadKey(true);
                 Console.Clear();
 
