@@ -177,7 +177,7 @@ namespace HelloDungeonAssesment
 
             Entity joker = new Entity("Joker", 350, 160, 315);
 
-            Entity talon1 = new Entity("The Talon", 1, 1, 1);
+            Entity talon1 = new Entity("The Talon", 115, 165, 300);
 
             _talons = new Entity[] { talon1 };
 
